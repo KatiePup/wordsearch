@@ -26,13 +26,13 @@
 export default {
   name: "Wordsearch",
   props: {
-    wordArray: {
+    words: {
       default: () => [
-        { word: "Harold", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
-        { word: "Pandy", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
-        { word: "Daddy", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
-        { word: "Jamie", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
-        { word: "Rosie", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
+        { word: "Harold" },
+        { word: "Pandy" },
+        { word: "Daddy" },
+        { word: "Jamie" },
+        { word: "Rosie" },
       ],
     },
     size: {
@@ -45,120 +45,9 @@ export default {
     },
   },
   data() {
-    // console.log(this.wordArray);
     return {
       letterArray: this.generateLetters(),
-      // [
-      //   [{ letter: "", selected: false, checked: false }, size.width],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      //   [
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //     { letter: "", selected: false, checked: false },
-      //   ],
-      // ],
+      wordArray: [],
       coord: {
         x1: -1,
         y1: -1,
@@ -174,19 +63,121 @@ export default {
   },
   methods: {
     generateLetters: function () {
-      let cellVal = { letter: "a", selected: false, checked: false };
+      let width = this.size[0].width;
+      let height = this.size[0].height;
+
+      let wordArrayStructure = { x0: 0, y0: 0, xDir: 0, yDir: 0, found: false };
+      let cellVal = { letter: "", selected: false, checked: false };
+
       let outArray = [];
       let rowArray = [];
 
-      for (let i = 0; i < this.size[0].width; i++) {
+      for (let i = 0; i < width; i++) {
         rowArray[i] = { ...cellVal };
       }
 
-      for (let i = 0; i < this.size[0].height; i++) {
+      for (let i = 0; i < height; i++) {
         outArray[i] = rowArray.map((row) => ({ ...row }));
       }
 
-      console.log(outArray);
+      this.wordArray = this.words.map((word) => ({
+        ...word,
+        ...wordArrayStructure,
+      }));
+
+      let worditer = 0;
+      let wordlen = 0;
+      let word = "";
+
+      let cell = Object;
+
+      let fail = false;
+
+      let rand = 0;
+      let x = 0;
+      let y = 0;
+      let x0 = 0;
+      let y0 = 0;
+      let xdir = 0;
+      let ydir = 0;
+
+      for (let i = 0; i < 100; i++) {
+        word = this.wordArray[worditer].word;
+        wordlen = word.length;
+
+        rand = Math.random();
+        x0 = Math.floor(rand * width);
+
+        rand = Math.random();
+        y0 = Math.floor(rand * height);
+
+        rand = Math.random();
+        if (rand < 0.125) {
+          xdir = 1;
+          ydir = 0;
+        } else if (rand < 0.25) {
+          xdir = 1;
+          ydir = -1;
+        } else if (rand < 0.375) {
+          xdir = 0;
+          ydir = -1;
+        } else if (rand < 0.5) {
+          xdir = -1;
+          ydir = -1;
+        } else if (rand < 0.625) {
+          xdir = -1;
+          ydir = 0;
+        } else if (rand < 0.75) {
+          xdir = -1;
+          ydir = 1;
+        } else if (rand < 0.875) {
+          xdir = 0;
+          ydir = 1;
+        } else {
+          xdir = 1;
+          ydir = 1;
+        }
+
+        fail = false;
+
+        for (let j = 0; j < wordlen; j++) {
+          x = x0 + xdir * j;
+          y = y0 + ydir * j;
+          if (!(0 <= x && x < width && 0 <= y && y < height)) {
+            fail = true;
+            break;
+          }
+
+          if (
+            !(
+              outArray[y][x].letter === "" ||
+              outArray[y][x].letter === word.slice(j, j + 1)
+            )
+          ) {
+            fail = true;
+            break;
+          }
+        }
+
+        if (!fail) {
+          for (let j = 0; j < wordlen; j++) {
+            x = x0 + xdir * j;
+            y = y0 + ydir * j;
+            cell = outArray[y][x];
+
+            cell.letter = word.slice(j, j + 1);
+          }
+          this.wordArray[worditer].x0 = x0;
+          this.wordArray[worditer].y0 = y0;
+          this.wordArray[worditer].xDir = xdir;
+          this.wordArray[worditer].yDir = ydir;
+          worditer++;
+        }
+
+        if (worditer === this.wordArray.length) {
+          break;
+        }
+      }
 
       return outArray;
     },
@@ -303,8 +294,10 @@ a {
 }
 .cellChecked {
   background-color: firebrick;
+  color: white;
 }
 .cellSelected.cellChecked {
   background-color: red;
+  color: white;
 }
 </style>
