@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="wordsearch">
+    <div class="legend">
+      <ul class="words">
+        <li v-for="word in wordArray" :key="word.word">
+          {{ word.word }} {{ word.found ? "🗹" : "☐" }}
+        </li>
+      </ul>
+    </div>
+
     <table @mouseleave="stopSelection">
       <tbody>
         <tr v-for="(row, y) in letterArray" :key="row.ID">
@@ -47,14 +55,15 @@ export default {
     },
   },
   data(props) {
-    const { size } = props;
+    const { size, words } = props;
     const { width, height } = size;
 
-    const words = this.generateWords();
+    const wordArray = this.generateWordsData(words);
 
     return {
-      wordArray: words,
-      letterArray: this.generateLetters(width, height, words),
+      wordArray,
+      letterArray: this.generateLetters(width, height, wordArray),
+
       coord: {
         x1: -1,
         y1: -1,
@@ -69,18 +78,20 @@ export default {
     };
   },
   methods: {
-    generateWords: function () {
+    generateWordsData: function (words) {
       let wordArrayStructure = { x0: 0, y0: 0, xDir: 0, yDir: 0, found: false };
-      return this.words.map((word) => ({
+
+      return words.map((word) => ({
         ...word,
         ...wordArrayStructure,
       }));
     },
+
     generateLetters: function (width, height, words) {
-      console.log("1");
+      // console.log("1");
       // let width = this.size.width;
       // let height = this.size.height;
-      console.log("2");
+      // console.log("2");
 
       let cellVal = { letter: "", selected: false, checked: false };
 
@@ -90,11 +101,11 @@ export default {
       for (let i = 0; i < width; i++) {
         rowArray[i] = { ...cellVal };
       }
-      console.log("3");
+      // console.log("3");
       for (let i = 0; i < height; i++) {
         outArray[i] = rowArray.map((row) => ({ ...row }));
       }
-      console.log("4");
+      // console.log("4");
       let worditer = 0;
       let wordlen = 0;
       let word = "";
@@ -114,8 +125,8 @@ export default {
       const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
       for (let i = 0; i < 100; i++) {
-        console.log("A");
-        console.log(words);
+        // console.log("A");
+        // console.log(words);
         word = words[worditer].word;
         wordlen = word.length;
 
@@ -124,7 +135,7 @@ export default {
 
         rand = Math.random();
         y0 = Math.floor(rand * height);
-        console.log("B");
+        // console.log("B");
         rand = Math.random();
         if (rand < 0.125) {
           xdir = 1;
@@ -153,7 +164,7 @@ export default {
         }
 
         fail = false;
-        console.log("C");
+        // console.log("C");
         for (let j = 0; j < wordlen; j++) {
           x = x0 + xdir * j;
           y = y0 + ydir * j;
@@ -173,7 +184,7 @@ export default {
             break;
           }
         }
-        console.log("D");
+        // console.log("D");
         if (!fail) {
           for (let j = 0; j < wordlen; j++) {
             x = x0 + xdir * j;
@@ -188,12 +199,12 @@ export default {
           words[worditer].yDir = ydir;
           worditer++;
         }
-        console.log("E");
+        // console.log("E");
         if (worditer === words.length) {
           break;
         }
       }
-      console.log("5");
+      // console.log("5");
       outArray.forEach((row) =>
         row.forEach((cell) => {
           if (cell.letter === "") {
@@ -201,7 +212,7 @@ export default {
           }
         })
       );
-      console.log("6");
+      // console.log("6");
       return outArray;
     },
     clickCell: function (x, y) {
@@ -234,8 +245,8 @@ export default {
       );
     },
     checkAttempt: function () {
-      console.log("A");
-      console.log(this.wordArray);
+      // console.log("A");
+      // console.log(this.wordArray);
 
       for (let i = 0; i < this.wordArray.length; i++) {
         const word = this.wordArray[i];
@@ -246,7 +257,7 @@ export default {
           word.yDir === this.polar.y &&
           word.word.length === this.polar.length
         ) {
-          console.log(this.wordArray[i]);
+          // console.log(this.wordArray[i]);
           this.select("checked");
           this.wordArray[i].found = true;
           break;
@@ -308,20 +319,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.wordsearch {
+  display: flex;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.legend .words {
+  display: flex;
+  flex-direction: column;
+
+  /* float: left; */
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.legend .words li {
+  display: flex;
 }
-a {
-  color: #42b983;
-}
+
 .cell {
   border: 1px solid #333;
   height: 20px;
