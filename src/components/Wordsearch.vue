@@ -1,18 +1,13 @@
 <template>
   <div>
     <table @mouseleave="stopSelection">
-      <thead>
-        <tr>
-          <th colspan="10">Wordsearch</th>
-        </tr>
-      </thead>
       <tbody>
         <tr v-for="(row, y) in letterArray" :key="row.ID">
           <td
             class="cell"
             :class="{
-              cellSelected: cell.selected === 1,
-              cellFound: cell.selected === 2,
+              cellSelected: cell.selected,
+              cellChecked: cell.checked,
             }"
             v-for="(cell, x) in row"
             :key="cell.ID"
@@ -30,130 +25,140 @@
 <script>
 export default {
   name: "Wordsearch",
-  data() {
-    return {
-      letterArray: [
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
-        [
-          { letter: "A", selected: 0 },
-          { letter: "B", selected: 0 },
-          { letter: "C", selected: 0 },
-          { letter: "D", selected: 0 },
-          { letter: "E", selected: 0 },
-          { letter: "F", selected: 0 },
-          { letter: "G", selected: 0 },
-          { letter: "H", selected: 0 },
-          { letter: "I", selected: 0 },
-          { letter: "J", selected: 0 },
-        ],
+  props: {
+    wordArray: {
+      default: () => [
+        { word: "Harold", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
+        { word: "Pandy", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
+        { word: "Daddy", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
+        { word: "Jamie", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
+        { word: "Rosie", x0: 0, y0: 0, xDir: 0, yDir: 0, found: false },
       ],
+    },
+    size: {
+      default: () => [
+        {
+          width: 10,
+          height: 10,
+        },
+      ],
+    },
+  },
+  data() {
+    // console.log(this.wordArray);
+    return {
+      letterArray: this.generateLetters(),
+      // [
+      //   [{ letter: "", selected: false, checked: false }, size.width],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      //   [
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //     { letter: "", selected: false, checked: false },
+      //   ],
+      // ],
       coord: {
         x1: -1,
         y1: -1,
@@ -168,12 +173,29 @@ export default {
     };
   },
   methods: {
+    generateLetters: function () {
+      let cellVal = { letter: "a", selected: false, checked: false };
+      let outArray = [];
+      let rowArray = [];
+
+      for (let i = 0; i < this.size[0].width; i++) {
+        rowArray[i] = { ...cellVal };
+      }
+
+      for (let i = 0; i < this.size[0].height; i++) {
+        outArray[i] = rowArray.map((row) => ({ ...row }));
+      }
+
+      console.log(outArray);
+
+      return outArray;
+    },
     clickCell: function (x, y) {
       if (this.coord.x1 === -1) {
         this.coord.x1 = x;
         this.coord.y1 = y;
       } else {
-        this.select(2);
+        this.select("checked");
       }
       this.selection();
     },
@@ -193,9 +215,7 @@ export default {
     clearSelected: function () {
       this.letterArray.forEach((row) =>
         row.forEach((cell) => {
-          if (cell.selected === 1) {
-            cell.selected = 0;
-          }
+          cell.selected = 0;
         })
       );
     },
@@ -204,7 +224,7 @@ export default {
       if (this.coord.x1 !== -1) {
         this.calculateSelected();
       }
-      this.select(1);
+      this.select("select");
     },
     calculateSelected: function () {
       let x0 = this.coord.x1;
@@ -231,20 +251,23 @@ export default {
       }
       this.polar.length = Math.max(Math.abs(x), Math.abs(y)) + 1;
     },
-    select(value) {
+    select(selectType) {
       for (let i = 0; i < this.polar.length; i++) {
-        if (
-          this.letterArray[this.coord.y1 + this.polar.y * i][
-            this.coord.x1 + this.polar.x * i
-          ] !== undefined &&
-          this.letterArray[this.coord.y1 + this.polar.y * i][
-            this.coord.x1 + this.polar.x * i
-          ].selected !== 2
-        ) {
-          this.letterArray[this.coord.y1 + this.polar.y * i][
-            this.coord.x1 + this.polar.x * i
-          ].selected = value;
+        const x = this.coord.x1 + this.polar.x * i;
+        const y = this.coord.y1 + this.polar.y * i;
+        let cell = this.letterArray[y][x];
+
+        if (cell !== undefined) {
+          if (selectType === "select") {
+            cell.selected = true;
+          } else if (selectType === "checked") {
+            cell.checked = true;
+          }
         }
+      }
+
+      if (selectType === "checked") {
+        this.stopSelection();
       }
     },
   },
@@ -278,7 +301,10 @@ a {
 .cellSelected {
   background-color: pink;
 }
-.cellFound {
+.cellChecked {
   background-color: firebrick;
+}
+.cellSelected.cellChecked {
+  background-color: red;
 }
 </style>
