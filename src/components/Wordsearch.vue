@@ -23,16 +23,17 @@
 </template>
 
 <script>
+import func from "../../vue-temp/vue-editor-bridge";
 export default {
   name: "Wordsearch",
   props: {
     words: {
       default: () => [
-        { word: "Harold" },
-        { word: "Pandy" },
-        { word: "Daddy" },
-        { word: "Jamie" },
-        { word: "Rosie" },
+        { word: "harold" },
+        { word: "pandy" },
+        { word: "daddy" },
+        { word: "jamie" },
+        { word: "rosie" },
       ],
     },
     size: {
@@ -101,6 +102,8 @@ export default {
       let xdir = 0;
       let ydir = 0;
 
+      const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
       for (let i = 0; i < 100; i++) {
         word = this.wordArray[worditer].word;
         wordlen = word.length;
@@ -143,6 +146,7 @@ export default {
         for (let j = 0; j < wordlen; j++) {
           x = x0 + xdir * j;
           y = y0 + ydir * j;
+
           if (!(0 <= x && x < width && 0 <= y && y < height)) {
             fail = true;
             break;
@@ -179,6 +183,14 @@ export default {
         }
       }
 
+      outArray.forEach((row) =>
+        row.forEach((cell) => {
+          if (cell.letter === "") {
+            cell.letter = alphabet[Math.floor(Math.random() * alphabet.length)];
+          }
+        })
+      );
+
       return outArray;
     },
     clickCell: function (x, y) {
@@ -186,7 +198,7 @@ export default {
         this.coord.x1 = x;
         this.coord.y1 = y;
       } else {
-        this.select("checked");
+        this.checkAttempt();
       }
       this.selection();
     },
@@ -210,7 +222,31 @@ export default {
         })
       );
     },
-    selection() {
+    checkAttempt: function () {
+      let guess = false;
+      let i;
+      for (i = 0; i < this.wordArray.length; i++) {
+        const word = this.wordArray[i];
+        if (
+          word.x0 === this.coord.x1 &&
+          word.y0 === this.coord.y1 &&
+          word.xDir === this.polar.x &&
+          word.yDir === this.polar.y &&
+          word.word.length === this.polar.length
+        ) {
+          guess = true;
+          break;
+        }
+      }
+
+      if (guess) {
+        this.select("checked");
+        this.wordArray[i].found = true;
+      }
+
+      this.stopSelection();
+    },
+    selection: function () {
       this.clearSelected();
       if (this.coord.x1 !== -1) {
         this.calculateSelected();
@@ -255,10 +291,6 @@ export default {
             cell.checked = true;
           }
         }
-      }
-
-      if (selectType === "checked") {
-        this.stopSelection();
       }
     },
   },
