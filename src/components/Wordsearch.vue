@@ -3,12 +3,16 @@
     <div class="legend">
       <ul class="words">
         <li v-for="word in wordArray" :key="word.word">
-          {{ word.word }} {{ word.found ? "🗹" : "☐" }}
+          <span class="checkbox">
+            {{ word.found ? "🗹" : "☐" }}
+          </span>
+
+          {{ word.word }}
         </li>
       </ul>
     </div>
 
-    <table @mouseleave="stopSelection">
+    <table @mouseleave="stopSelection" class="grid">
       <tbody>
         <tr v-for="(row, y) in letterArray" :key="row.ID">
           <td
@@ -320,33 +324,95 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .wordsearch {
+  --border: #1c1c1c;
+  --border-roundy: 0.5rem;
+  --color-highlight: pink;
+  --color-good: lightgreen;
+  --color-bad: orangered;
+
   display: flex;
+  font-family: cursive;
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+}
+
+.grid {
+  flex-grow: 1;
 }
 
 .legend .words {
+  border-radius: var(--border-roundy);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 
-  /* float: left; */
+  margin: 0 1rem;
+  min-width: 20vw;
+  width: 12rem;
+  /* height: 100%; */
+  padding: 0;
+
+  background: rgb(247, 245, 245);
+  border: 1px var(--border) solid;
 }
 
 .legend .words li {
   display: flex;
+  flex-grow: 1;
+  border: 1px dashed var(--border);
+  border-left: none;
+  border-right: none;
+  margin: -1px 0px;
+  width: calc(100%);
+
+  /* background: pink; */
+  padding: 0.25rem;
+  padding-left: 2.5rem;
+  align-items: center;
+  justify-items: stretch;
 }
 
+.legend .words li + li {
+  margin-top: 1px;
+}
+
+.legend .words li > .checkbox {
+  border-radius: var(--border-roundy);
+
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 2rem;
+  line-height: 2rem;
+  padding: 0rem;
+  margin-top: -0.2rem;
+  margin-bottom: -0.2rem;
+  margin-left: -2.5rem;
+  /* margin-right: 0.5rem; */
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* */
 .cell {
   border: 1px solid #333;
-  height: 20px;
-  width: 20px;
+  border-radius: var(--border-roundy);
+  font-size: 120%;
+  height: 2rem;
+  width: 2rem;
+  vertical-align: middle;
+  text-align: center;
   user-select: none;
 
   background-color: white;
 }
 .cellSelected {
-  background-color: pink;
+  background-color: var(--color-highlight);
 }
 .cellChecked {
-  background-color: firebrick;
+  background-color: var(--color-good);
   color: white;
 }
 .cellSelected.cellChecked {
