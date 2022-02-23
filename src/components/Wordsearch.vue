@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import func from "../../vue-temp/vue-editor-bridge";
+// import func from "../../vue-temp/vue-editor-bridge";
 export default {
   name: "Wordsearch",
   props: {
@@ -37,18 +37,24 @@ export default {
       ],
     },
     size: {
-      default: () => [
-        {
+      type: Object,
+      default: () => {
+        return {
           width: 10,
           height: 10,
-        },
-      ],
+        };
+      },
     },
   },
-  data() {
+  data(props) {
+    const { size } = props;
+    const { width, height } = size;
+
+    const words = this.generateWords();
+
     return {
-      letterArray: this.generateLetters(),
-      wordArray: [],
+      wordArray: words,
+      letterArray: this.generateLetters(width, height, words),
       coord: {
         x1: -1,
         y1: -1,
@@ -63,11 +69,19 @@ export default {
     };
   },
   methods: {
-    generateLetters: function () {
-      let width = this.size[0].width;
-      let height = this.size[0].height;
-
+    generateWords: function () {
       let wordArrayStructure = { x0: 0, y0: 0, xDir: 0, yDir: 0, found: false };
+      return this.words.map((word) => ({
+        ...word,
+        ...wordArrayStructure,
+      }));
+    },
+    generateLetters: function (width, height, words) {
+      console.log("1");
+      // let width = this.size.width;
+      // let height = this.size.height;
+      console.log("2");
+
       let cellVal = { letter: "", selected: false, checked: false };
 
       let outArray = [];
@@ -76,16 +90,11 @@ export default {
       for (let i = 0; i < width; i++) {
         rowArray[i] = { ...cellVal };
       }
-
+      console.log("3");
       for (let i = 0; i < height; i++) {
         outArray[i] = rowArray.map((row) => ({ ...row }));
       }
-
-      this.wordArray = this.words.map((word) => ({
-        ...word,
-        ...wordArrayStructure,
-      }));
-
+      console.log("4");
       let worditer = 0;
       let wordlen = 0;
       let word = "";
@@ -105,7 +114,9 @@ export default {
       const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
       for (let i = 0; i < 100; i++) {
-        word = this.wordArray[worditer].word;
+        console.log("A");
+        console.log(words);
+        word = words[worditer].word;
         wordlen = word.length;
 
         rand = Math.random();
@@ -113,7 +124,7 @@ export default {
 
         rand = Math.random();
         y0 = Math.floor(rand * height);
-
+        console.log("B");
         rand = Math.random();
         if (rand < 0.125) {
           xdir = 1;
@@ -142,7 +153,7 @@ export default {
         }
 
         fail = false;
-
+        console.log("C");
         for (let j = 0; j < wordlen; j++) {
           x = x0 + xdir * j;
           y = y0 + ydir * j;
@@ -162,7 +173,7 @@ export default {
             break;
           }
         }
-
+        console.log("D");
         if (!fail) {
           for (let j = 0; j < wordlen; j++) {
             x = x0 + xdir * j;
@@ -171,18 +182,18 @@ export default {
 
             cell.letter = word.slice(j, j + 1);
           }
-          this.wordArray[worditer].x0 = x0;
-          this.wordArray[worditer].y0 = y0;
-          this.wordArray[worditer].xDir = xdir;
-          this.wordArray[worditer].yDir = ydir;
+          words[worditer].x0 = x0;
+          words[worditer].y0 = y0;
+          words[worditer].xDir = xdir;
+          words[worditer].yDir = ydir;
           worditer++;
         }
-
-        if (worditer === this.wordArray.length) {
+        console.log("E");
+        if (worditer === words.length) {
           break;
         }
       }
-
+      console.log("5");
       outArray.forEach((row) =>
         row.forEach((cell) => {
           if (cell.letter === "") {
@@ -190,7 +201,7 @@ export default {
           }
         })
       );
-
+      console.log("6");
       return outArray;
     },
     clickCell: function (x, y) {
@@ -223,9 +234,10 @@ export default {
       );
     },
     checkAttempt: function () {
-      let guess = false;
-      let i;
-      for (i = 0; i < this.wordArray.length; i++) {
+      console.log("A");
+      console.log(this.wordArray);
+
+      for (let i = 0; i < this.wordArray.length; i++) {
         const word = this.wordArray[i];
         if (
           word.x0 === this.coord.x1 &&
@@ -234,14 +246,11 @@ export default {
           word.yDir === this.polar.y &&
           word.word.length === this.polar.length
         ) {
-          guess = true;
+          console.log(this.wordArray[i]);
+          this.select("checked");
+          this.wordArray[i].found = true;
           break;
         }
-      }
-
-      if (guess) {
-        this.select("checked");
-        this.wordArray[i].found = true;
       }
 
       this.stopSelection();
