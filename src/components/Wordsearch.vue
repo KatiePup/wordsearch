@@ -41,19 +41,22 @@ export default {
   props: {
     words: {
       default: () => [
+        { word: "whitelia" },
         { word: "harold" },
         { word: "pandy" },
         { word: "daddy" },
+        { word: "fiona" },
         { word: "jamie" },
         { word: "rosie" },
+        { word: "baby" },
       ],
     },
     size: {
       type: Object,
       default: () => {
         return {
-          width: 10,
-          height: 10,
+          width: 20,
+          height: 20,
         };
       },
     },
@@ -338,7 +341,7 @@ export default {
 }
 
 .grid {
-  flex-grow: 1;
+  /* flex-grow: 0; */
 }
 
 .legend .words {
@@ -396,13 +399,19 @@ export default {
 }
 
 /* */
+
+.cell:before {
+  content: "";
+  float: left;
+  padding-top: 100%;
+}
 .cell {
   border: 1px solid #333;
   border-radius: var(--border-roundy);
   font-size: 120%;
-  height: 2rem;
-  width: 2rem;
-  vertical-align: middle;
+  height: 1.5rem;
+  width: 1.5rem;
+  vertical-align: bottom;
   text-align: center;
   user-select: none;
 
