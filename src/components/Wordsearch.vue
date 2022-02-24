@@ -95,11 +95,6 @@ export default {
     },
 
     generateLetters: function (width, height, words) {
-      // console.log("1");
-      // let width = this.size.width;
-      // let height = this.size.height;
-      // console.log("2");
-
       let cellVal = { letter: "", selected: false, checked: false };
 
       let outArray = [];
@@ -108,11 +103,11 @@ export default {
       for (let i = 0; i < width; i++) {
         rowArray[i] = { ...cellVal };
       }
-      // console.log("3");
+
       for (let i = 0; i < height; i++) {
         outArray[i] = rowArray.map((row) => ({ ...row }));
       }
-      // console.log("4");
+
       let worditer = 0;
       let wordlen = 0;
       let word = "";
@@ -132,8 +127,6 @@ export default {
       const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
       for (let i = 0; i < 100; i++) {
-        // console.log("A");
-        // console.log(words);
         word = words[worditer].word;
         wordlen = word.length;
 
@@ -142,7 +135,7 @@ export default {
 
         rand = Math.random();
         y0 = Math.floor(rand * height);
-        // console.log("B");
+
         rand = Math.random();
         if (rand < 0.125) {
           xdir = 1;
@@ -171,7 +164,6 @@ export default {
         }
 
         fail = false;
-        // console.log("C");
         for (let j = 0; j < wordlen; j++) {
           x = x0 + xdir * j;
           y = y0 + ydir * j;
@@ -191,7 +183,7 @@ export default {
             break;
           }
         }
-        // console.log("D");
+
         if (!fail) {
           for (let j = 0; j < wordlen; j++) {
             x = x0 + xdir * j;
@@ -206,12 +198,12 @@ export default {
           words[worditer].yDir = ydir;
           worditer++;
         }
-        // console.log("E");
+
         if (worditer === words.length) {
           break;
         }
       }
-      // console.log("5");
+
       outArray.forEach((row) =>
         row.forEach((cell) => {
           if (cell.letter === "") {
@@ -219,7 +211,7 @@ export default {
           }
         })
       );
-      // console.log("6");
+
       return outArray;
     },
     clickCell: function (x, y) {
@@ -252,9 +244,6 @@ export default {
       );
     },
     checkAttempt: function () {
-      // console.log("A");
-      // console.log(this.wordArray);
-
       for (let i = 0; i < this.wordArray.length; i++) {
         const word = this.wordArray[i];
         if (
@@ -264,13 +253,11 @@ export default {
           word.yDir === this.polar.y &&
           word.word.length === this.polar.length
         ) {
-          // console.log(this.wordArray[i]);
           this.select("checked");
           this.wordArray[i].found = true;
           break;
         }
       }
-
       this.stopSelection();
     },
     selection: function () {
