@@ -3,7 +3,7 @@
     <ul class="words">
       <li v-for="word in wordStates" :key="word.word">
         <span class="checkbox">
-          {{ word.found ? "🗹" : "☐" }}
+          {{ word.found ? '🗹' : '☐' }}
         </span>
 
         {{ word.word }}
@@ -22,9 +22,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {}
   },
-};
+}
 </script>
 
 <style scoped>

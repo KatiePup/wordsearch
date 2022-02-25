@@ -1,25 +1,22 @@
 <template>
-  <div id="app">
-    <Wordsearch />
+  <div>
+    <Wordsearch :word="words" />
   </div>
 </template>
 
 <script>
-import Wordsearch from "./components/Wordsearch";
+import { Words } from './words'
+import Wordsearch from './components/Wordsearch.vue'
 
 export default {
-  name: "App",
   components: {
     Wordsearch,
   },
-};
-</script>
 
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
+  data() {
+    return {
+      words: Words,
+    }
+  },
 }
-</style>
+</script>
