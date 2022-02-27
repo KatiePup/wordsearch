@@ -1,2 +1,1 @@
-# wordsearch
-Created with CodeSandbox
+# Wordsearch
